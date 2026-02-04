@@ -17,7 +17,11 @@ public class Book {
     private String isbn;
     private double price;
 
+    public Book() {
+    }
+
     public Book(String title, String author, int publicationYear, String isbn, double price) {
+        super();
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
@@ -44,4 +48,9 @@ public class Book {
     public double getPrice() {
         return price;
     }
+
+    @Override
+	public String toString() {
+		return "Student [id=" + id + ", title=" + title + ", author=" + author + ", publication year=" + publicationYear + ", ISBN= "+ isbn + ", price =" + price + "]";
+	}
 }
