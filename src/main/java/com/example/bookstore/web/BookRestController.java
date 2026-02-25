@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
@@ -39,5 +40,11 @@ public class BookRestController {
     @RequestMapping(value="/api/books", method=RequestMethod.POST)
     public @ResponseBody Book saveBookRest(@RequestBody Book book) {
         return bookRepository.save(book);
+    }
+
+    @RequestMapping(value = "/api/books/{id}", method = RequestMethod.DELETE)
+    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+        bookRepository.deleteById(bookId);
+        return "ok";
     }
 }
