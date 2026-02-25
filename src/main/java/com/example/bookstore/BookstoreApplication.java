@@ -39,12 +39,11 @@ public class BookstoreApplication {
         	categoryRepository.save(programming);
 
 			log.info("save a couple of books");
-			repository.save(new Book("1984", "George Orwell", 1949, "978-0451524935", 12.99));
+			repository.save(new Book("1984", "George Orwell", 1949, "978-0451524935", 12.99, fiction));
 
-			repository.save(new Book("To Kill a Mockingbird", "Harper Lee", 1960, "978-0061120084", 14.50));
+			repository.save(new Book("To Kill a Mockingbird", "Harper Lee", 1960, "978-0061120084", 14.50, fiction));
 
-			repository.save(new Book("The Hobbit", "J.R.R. Tolkien", 1937, "978-0547928227", 18.99));
-
+			repository.save(new Book("The Hobbit", "J.R.R. Tolkien", 1937, "978-0547928227", 18.99, fiction));
 			
 			
 			log.info("fetch all books");
