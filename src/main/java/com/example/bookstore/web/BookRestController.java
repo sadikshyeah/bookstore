@@ -42,8 +42,22 @@ public class BookRestController {
         return bookRepository.save(book);
     }
 
+    // REST service to update an existing book
+    @RequestMapping(value = "/api/books/{id}", method = RequestMethod.PUT)
+    public @ResponseBody Book updateBook(@PathVariable("id") Long bookId, @RequestBody Book updatedBook, Model model) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalBook.isPresent()) {
+            Book existingBook = optionalBook.get();
+            existingBook.setTitle(updatedBook.getTitle());
+            existingBook.setAuthor(updatedBook.getAuthor());
+            return bookRepository.save(existingBook);
+        } else {
+            throw new RuntimeException("Book not found");
+        }
+    }
+
     @RequestMapping(value = "/api/books/{id}", method = RequestMethod.DELETE)
-    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+    public @ResponseBody String deleteBook(@PathVariable("id") Long bookId, Model model) {
         bookRepository.deleteById(bookId);
         return "ok";
     }
