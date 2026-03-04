@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Book list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,6 +8,16 @@
 </head>
 <body>
 	<h1>Books</h1>
+	<div class="col-md-4">
+        Welcome
+        <span sec:authentication="name">Username</span>
+    </div>
+	<div class="col-md-4" style="padding:20px 0">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"
+                   class="btn btn-sm btn-danger"/>
+        </form>
+    </div>
     <table class="table table-striped">
 		<tr>
 		    <th>Title</th>
@@ -14,8 +25,9 @@
 		    <th>Publication year</th>
 		    <th>ISBN</th>
 		    <th>Price</th>
-		    <th></th>
-		    <th></th>
+		    <th>Category</th>
+			<th sec:authorize="hasRole('ADMIN')">Actions</th>
+		
 		</tr>  
     	<tr th:each = "book : ${books}">
     		<td th:text="${book.title}"></td>
@@ -25,10 +37,18 @@
     		<td th:text="${book.price}"></td>
 			<td th:text="${book.category != null ? book.category.name : 'No Category'}"></td>
 
- 			<td><a class="btn" th:href="@{/edit/{id}(id=${book.id})}">Edit</a></td> 
- 			<td><a class="btn btn-danger" th:href="@{/delete/{id}(id=${book.id})}">Delete</a></td>  
-    	</tr>
-     </table>
-	 <a class="btn btn-success" href="/add">Add Book</a>    	
+ 			<td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/delete/{id}(id=${book.id})}"
+                   class="btn btn-xs btn-danger">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <a href="/add" class="btn btn-primary">Add Book</a>
+
+</div>
+
 </body>
 </html>
