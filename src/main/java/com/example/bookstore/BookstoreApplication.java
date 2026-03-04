@@ -6,11 +6,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
 import com.example.bookstore.domain.Category;
 import com.example.bookstore.domain.CategoryRepository;
+import com.example.bookstore.domain.User;
+import com.example.bookstore.domain.UserRepository;
 
 
 @SpringBootApplication
@@ -57,4 +60,31 @@ public class BookstoreApplication {
 
 		};
 	}
+
+	@Bean
+public CommandLineRunner userDemo(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    return (args) -> {
+        log.info("Creating users");
+
+        if (userRepository.findByUsername("admin") == null) {
+            userRepository.save(new User(
+                "admin",
+                passwordEncoder.encode("admin123"),
+                "admin@bookstore.com",
+                "ROLE_ADMIN"
+            ));
+        }
+
+        if (userRepository.findByUsername("user") == null) {
+            userRepository.save(new User(
+                "user",
+                passwordEncoder.encode("user123"),
+                "user@bookstore.com",
+                "ROLE_USER"
+            ));
+        }
+
+        log.info("Users created successfully");
+    };
+}
 }
